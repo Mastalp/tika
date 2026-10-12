@@ -1,17 +1,10 @@
 package org.apache.tika.serialization;
 
-import org.mockito.*;
-import org.junit.jupiter.api.*;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import org.apache.tika.config.loader.ComponentLoader;
+import org.junit.jupiter.api.Test;
 
-@ExtendWith(MockitoExtension.class)
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class ComponentConfig_hasListWrapper_4_3_Test {
 
     // THIS CHATUNITEST FAILS

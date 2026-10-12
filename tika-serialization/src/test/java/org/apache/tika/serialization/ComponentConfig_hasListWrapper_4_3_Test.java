@@ -16,15 +16,11 @@
  */
 package org.apache.tika.serialization;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.Test;
 
-@ExtendWith(MockitoExtension.class)
 public class ComponentConfig_hasListWrapper_4_3_Test {
 
     // THIS CHATUNITEST FAILS

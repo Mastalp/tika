@@ -16,11 +16,9 @@
  */
 package org.apache.tika.serialization;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.junit.jupiter.api.*;
-import org.mockito.*;
+import org.junit.jupiter.api.Test;
 
 class ComponentConfig_hasCustomLoader_7_3_Test {
 

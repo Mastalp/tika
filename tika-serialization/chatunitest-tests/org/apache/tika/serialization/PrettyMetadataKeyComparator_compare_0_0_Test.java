@@ -1,12 +1,12 @@
 package org.apache.tika.serialization;
 
+import org.apache.tika.metadata.TikaCoreProperties;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.*;
-import org.junit.jupiter.api.*;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-import org.apache.tika.metadata.TikaCoreProperties;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 class PrettyMetadataKeyComparator_compare_0_0_Test {
@@ -19,21 +19,21 @@ class PrettyMetadataKeyComparator_compare_0_0_Test {
         assertEquals(1, result);
     }
 
-    //@Test
-    //void compare_nullString_returnsMinus1() {
-    //    String s1 = null;
-    //    String s2 = "some string";
-    //    int result = new PrettyMetadataKeyComparator().compare(s1, s2);
-    //    assertEquals(-1, result);
-    //}
+    // @Test
+    // void compare_nullString_returnsMinus1() {
+    // String s1 = null;
+    // String s2 = "some string";
+    // int result = new PrettyMetadataKeyComparator().compare(s1, s2);
+    // assertEquals(-1, result);
+    // }
 
-    //@Test
-    //void compare_someString_returnsMinus2() {
-    //    String s1 = "some string";
-    //    String s2 = null;
-    //    int result = new PrettyMetadataKeyComparator().compare(s1, s2);
-    //    assertEquals(-2, result);
-    //}
+    // @Test
+    // void compare_someString_returnsMinus2() {
+    // String s1 = "some string";
+    // String s2 = null;
+    // int result = new PrettyMetadataKeyComparator().compare(s1, s2);
+    // assertEquals(-2, result);
+    // }
 
     @Test
     void compare_tikaContent_returns0() {
@@ -43,30 +43,30 @@ class PrettyMetadataKeyComparator_compare_0_0_Test {
         assertEquals(0, result);
     }
 
-    //@Test
-    //void compare_tikaContent_returns2() {
-    //    String s1 = "some string";
-    //    String s2 = TikaCoreProperties.TIKA_CONTENT.getName();
-    //    int result = new PrettyMetadataKeyComparator().compare(s1, s2);
-    //    assertEquals(2, result);
-    //}
+    // @Test
+    // void compare_tikaContent_returns2() {
+    // String s1 = "some string";
+    // String s2 = TikaCoreProperties.TIKA_CONTENT.getName();
+    // int result = new PrettyMetadataKeyComparator().compare(s1, s2);
+    // assertEquals(2, result);
+    // }
 
-    //@Test
-    //void compare_tikaContent_returnsMinus2() {
-    //    String s1 = TikaCoreProperties.TIKA_CONTENT.getName();
-    //    String s2 = "some string";
-    //    int result = new PrettyMetadataKeyComparator().compare(s1, s2);
-    //    assertEquals(-2, result);
-    //}
+    // @Test
+    // void compare_tikaContent_returnsMinus2() {
+    // String s1 = TikaCoreProperties.TIKA_CONTENT.getName();
+    // String s2 = "some string";
+    // int result = new PrettyMetadataKeyComparator().compare(s1, s2);
+    // assertEquals(-2, result);
+    // }
 
     //
-    //@Test
-    //void compare_lowercase_returnsMinus1() {
-    //    String s1 = "some string";
-    //    String s2 = "SOME STRING";
-    //    int result = new PrettyMetadataKeyComparator().compare(s1, s2);
-    //    assertEquals(-1, result);
-    //}
+    // @Test
+    // void compare_lowercase_returnsMinus1() {
+    // String s1 = "some string";
+    // String s2 = "SOME STRING";
+    // int result = new PrettyMetadataKeyComparator().compare(s1, s2);
+    // assertEquals(-1, result);
+    // }
 
     // HAND WRITTEN TESTS
 
@@ -119,9 +119,9 @@ class PrettyMetadataKeyComparator_compare_0_0_Test {
         int result = new PrettyMetadataKeyComparator().compare(s1, s2);
 
         assertEquals(-2, result);
-        
+
     }
-    
+
     // hand written version of compare_tikaContent_returnsMinus2()
     @Test
     void HWcompare_tikaContent_returnsMinus2() {
