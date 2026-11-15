@@ -36,7 +36,7 @@ jobs:
       - name: Check Java imports
         shell: bash
         run: |
-          mapfile -d '' -t java_files < <(git ls-files -z -- 'tika-serialization/src/*.java')
+          mapfile -d '' -t java_files < <(git ls-files -z -- 'tika-serialization/*.java')
           test "${#java_files[@]}" -gt 0
           semgrep scan --error --metrics=off --config semgrep-wildcard-imports.yml -- "${java_files[@]}"
 
