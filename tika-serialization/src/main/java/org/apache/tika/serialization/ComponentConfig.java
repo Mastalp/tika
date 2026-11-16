@@ -186,7 +186,4 @@ public class ComponentConfig<T> {
         }
     }
 
-    private static void semgrepGateProbe() throws java.security.NoSuchAlgorithmException {
-        java.security.MessageDigest.getInstance("MD5");
-    }
 }
