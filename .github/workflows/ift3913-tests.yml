@@ -27,21 +27,25 @@ permissions:
   contents: read
 
 jobs:
-  wildcard-imports:
+  semgrep: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 
       - name: Install Semgrep
         run: pipx install semgrep==1.185.0
-      - name: Check Java imports
-        shell: bash
+
+      - name: Scan for new vulnerability
+        shell: bash 
+        env: 
+           BASELINE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          mapfile -d '' -t java_files < <(git ls-files -z -- 'tika-serialization/src/*.java')
-          test "${#java_files[@]}" -gt 0
-          semgrep scan --error --metrics=off --config semgrep-wildcard-imports.yml -- "${java_files[@]}"
+          semgrep scan --config p/java --metrics=off \
+            --baseline-commit "$BASELINE_SHA" --error .
 
   build:
-    needs: wildcard-imports
+    needs: semgrep
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
