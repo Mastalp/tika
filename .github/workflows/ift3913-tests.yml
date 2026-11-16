@@ -40,9 +40,10 @@ jobs:
         shell: bash
         env:
           BASELINE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+
         run: |
-          semgrep scan --config p/java --metrics=off \
-            --baseline-commit "$BASELINE_SHA" --error .
+          semgrep scan --config p/java --config semgrep-gate-test.yml \
+            --metrics=off --baseline-commit "$BASELINE_SHA" --error .
 
   build:
     needs: semgrep

@@ -1,0 +1,6 @@
+rules:
+  - id: ift3913-gate-test
+    languages: [java]
+    message: "IFT3913 test marker detected"
+    severity: ERROR
+    pattern: System.out.println("IFT3913_GATE_TEST")
