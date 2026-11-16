@@ -27,19 +27,19 @@ permissions:
   contents: read
 
 jobs:
-  semgrep: 
+  semgrep:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
       - name: Install Semgrep
         run: pipx install semgrep==1.185.0
 
       - name: Scan for new vulnerability
-        shell: bash 
-        env: 
-           BASELINE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        shell: bash
+        env:
+          BASELINE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           semgrep scan --config p/java --metrics=off \
             --baseline-commit "$BASELINE_SHA" --error .
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
           cache: maven
       - name: Run serialization module tests
         run: ./mvnw -B -pl :tika-serialization -am test
