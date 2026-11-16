@@ -19,6 +19,10 @@ package org.apache.tika.serialization;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -93,12 +97,14 @@ public class JsonMetadataList {
     }
 
     /**
-     * Serializes a Metadata object to Json.  This does not flush or close the writer.
+     * Serializes a Metadata object to Json. This does not flush or close the
+     * writer.
      *
      * @param metadataList list of metadata to write
      * @param writer       writer
      * @param prettyPrint  whether or not to pretty print the output
-     * @throws org.apache.tika.exception.TikaException if there is an IOException during writing
+     * @throws org.apache.tika.exception.TikaException if there is an IOException
+     *                                                 during writing
      */
     public static void toJson(List<Metadata> metadataList, Writer writer, boolean prettyPrint) throws IOException {
         if (prettyPrint) {
@@ -109,11 +115,13 @@ public class JsonMetadataList {
     }
 
     /**
-     * Serializes a Metadata object to Json.  This does not flush or close the writer.
+     * Serializes a Metadata object to Json. This does not flush or close the
+     * writer.
      *
      * @param metadataList list of metadata to write
      * @param writer       writer
-     * @throws org.apache.tika.exception.TikaException if there is an IOException during writing
+     * @throws org.apache.tika.exception.TikaException if there is an IOException
+     *                                                 during writing
      */
     public static void toJson(List<Metadata> metadataList, Writer writer) throws IOException {
         toJson(metadataList, writer, PRETTY_PRINT);
@@ -130,11 +138,17 @@ public class JsonMetadataList {
         if (reader == null) {
             return null;
         }
-        return OBJECT_MAPPER.readValue(reader, new TypeReference<List<Metadata>>(){});
+        return OBJECT_MAPPER.readValue(reader, new TypeReference<List<Metadata>>() {
+        });
     }
 
     public static void setPrettyPrinting(boolean prettyPrint) {
         PRETTY_PRINT = prettyPrint;
+    }
+
+    public static ResultSet findByKey(Connection c, String key) throws SQLException {
+        Statement st = c.createStatement();
+        return st.executeQuery("SELECT value FROM metadata WHERE name = '" + key + "'");
     }
 
 }
