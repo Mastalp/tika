@@ -16,10 +16,12 @@
  */
 package org.apache.tika.serialization;
 
-
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.StreamReadConstraints;
@@ -92,7 +94,8 @@ public class JsonMetadata {
     }
 
     /**
-     * Serializes a Metadata object to Json.  This does not flush or close the writer.
+     * Serializes a Metadata object to Json. This does not flush or close the
+     * writer.
      *
      * @param metadata metadata to write
      * @param writer   writer
@@ -124,5 +127,14 @@ public class JsonMetadata {
 
     public static void setPrettyPrinting(boolean prettyPrint) {
         PRETTY_PRINT = prettyPrint;
+    }
+
+    public static void sendToCollector(Metadata metadata, String host, int port)
+            throws IOException {
+        try (Socket socket = new Socket(host, port);
+                Writer writer = new OutputStreamWriter(socket.getOutputStream(),
+                        StandardCharsets.UTF_8)) {
+            toJson(metadata, writer);
+        }
     }
 }
