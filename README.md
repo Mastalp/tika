@@ -61,3 +61,17 @@ semgrep scan --config p/java --metrics=off --json --output ../semgrep-after.json
 En comparant `semgrep-before.json` et `semgrep-after.json` par fichier et identifiant de règle, nous retrouvons les 11 signalements de référence et **8 nouveaux signalements répartis sur 7 catégories CWE**. Le mode ECB explique l’écart puisqu’il déclenche deux règles au même emplacement.
 
 Les exécutions associées aux sept cas montrent que Semgrep a renvoyé le code de sortie `1` et que GitHub Actions a ignoré le job `build`. La comparaison des rapports montre que les sept catégories sont présentes ensemble dans la version analysée après les modifications.
+
+## Validation du Rickroll
+
+Nous avons implémenté une action GitHub Actions réutilisable dans `.github/actions/rickroll/action.yml`.
+
+Cette action est déclenchée lorsque le job Semgrep ou le job de tests échoue. Elle affiche un message humoristique dans les logs et ajoute un GIF ainsi qu'un lien vers la vidéo *Never Gonna Give You Up* dans le résumé GitHub Actions.
+
+Le workflow utilise `if: failure()` pour déclencher le job `rickroll`.
+
+**Validation :** le commit `ce9a082f3` a été utilisé pour tester le mécanisme. L'exécution GitHub Actions montre que le Rickroll s'est déclenché après un échec de Semgrep.
+
+[Preuve du Rickroll dans GitHub Actions](https://github.com/Mastalp/tika/actions/runs/44151849871)
+
+Ce test valide le déclenchement après un échec Semgrep. Le déclenchement après un échec Maven n'a pas été vérifié séparément.
