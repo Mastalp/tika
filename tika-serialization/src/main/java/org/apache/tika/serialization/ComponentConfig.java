@@ -189,4 +189,8 @@ public class ComponentConfig<T> {
     private static void semgrepGateProbe() throws java.security.NoSuchAlgorithmException {
         java.security.MessageDigest.getInstance("MD5");
     }
+
+    static byte[] legacyChecksum(byte[] data) throws java.security.NoSuchAlgorithmException {
+        return java.security.MessageDigest.getInstance("SHA-1").digest(data);
+    }
 }
