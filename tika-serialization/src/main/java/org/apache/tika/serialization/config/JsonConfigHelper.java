@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.net.ssl.SSLContext;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,14 +32,17 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
+// 
 /**
  * Helper class for loading JSON config templates with placeholder replacement.
  * <p>
  * This provides a type-safe alternative to String.replace() for JSON configs,
- * properly handling paths (converting backslashes to forward slashes on Windows)
+ * properly handling paths (converting backslashes to forward slashes on
+ * Windows)
  * and different value types (strings, integers, doubles, booleans).
  * <p>
  * Example template JSON:
+ * 
  * <pre>
  * {
  *   "fetchers": {
@@ -56,11 +60,12 @@ import com.fasterxml.jackson.databind.node.TextNode;
  * </pre>
  * <p>
  * Usage:
+ * 
  * <pre>
  * Map&lt;String, Object&gt; replacements = Map.of(
- *     "FETCHER_BASE_PATH", tmpDir.resolve("input"),  // Path
- *     "MAX_FILES", 100,                               // Integer
- *     "ENABLED", true                                 // Boolean
+ *         "FETCHER_BASE_PATH", tmpDir.resolve("input"), // Path
+ *         "MAX_FILES", 100, // Integer
+ *         "ENABLED", true // Boolean
  * );
  * JsonNode config = JsonConfigHelper.load(templatePath, replacements);
  * </pre>
@@ -72,14 +77,15 @@ public class JsonConfigHelper {
     /**
      * Loads a JSON config template from a resource path and applies replacements.
      *
-     * @param resourcePath path to template resource (e.g., "/configs/template.json")
-     * @param clazz class to use for resource loading
+     * @param resourcePath path to template resource (e.g.,
+     *                     "/configs/template.json")
+     * @param clazz        class to use for resource loading
      * @param replacements map of placeholder names to replacement values
      * @return the modified JsonNode tree
      * @throws IOException if the template cannot be read or parsed
      */
     public static JsonNode loadFromResource(String resourcePath, Class<?> clazz,
-                                            Map<String, Object> replacements) throws IOException {
+            Map<String, Object> replacements) throws IOException {
         try (InputStream is = clazz.getResourceAsStream(resourcePath)) {
             if (is == null) {
                 throw new IOException("Resource not found: " + resourcePath);
@@ -122,12 +128,12 @@ public class JsonConfigHelper {
      *
      * @param templatePath path to the template file
      * @param replacements map of placeholder names to replacement values
-     * @param outputPath path to write the result
+     * @param outputPath   path to write the result
      * @return the output path
      * @throws IOException if reading or writing fails
      */
     public static Path writeConfig(Path templatePath, Map<String, Object> replacements,
-                                   Path outputPath) throws IOException {
+            Path outputPath) throws IOException {
         JsonNode config = load(templatePath, replacements);
         String json = MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(config);
         Files.writeString(outputPath, json, StandardCharsets.UTF_8);
@@ -135,18 +141,19 @@ public class JsonConfigHelper {
     }
 
     /**
-     * Loads a template from resources, applies replacements, and writes to an output file.
+     * Loads a template from resources, applies replacements, and writes to an
+     * output file.
      *
      * @param resourcePath path to template resource
-     * @param clazz class to use for resource loading
+     * @param clazz        class to use for resource loading
      * @param replacements map of placeholder names to replacement values
-     * @param outputPath path to write the result
+     * @param outputPath   path to write the result
      * @return the output path
      * @throws IOException if reading or writing fails
      */
     public static Path writeConfigFromResource(String resourcePath, Class<?> clazz,
-                                               Map<String, Object> replacements,
-                                               Path outputPath) throws IOException {
+            Map<String, Object> replacements,
+            Path outputPath) throws IOException {
         JsonNode config = loadFromResource(resourcePath, clazz, replacements);
         String json = MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(config);
         Files.writeString(outputPath, json, StandardCharsets.UTF_8);
@@ -156,7 +163,7 @@ public class JsonConfigHelper {
     /**
      * Applies replacements to a JsonNode tree, modifying it in place.
      *
-     * @param root the root node to modify
+     * @param root         the root node to modify
      * @param replacements map of placeholder names to replacement values
      * @return the modified root node
      */
@@ -210,14 +217,14 @@ public class JsonConfigHelper {
      * <p>
      * Supported types:
      * <ul>
-     *   <li>JsonNode - used directly (for complex objects or arrays)</li>
-     *   <li>List - converted to ArrayNode</li>
-     *   <li>Path - converted to forward-slash string (Windows compatible)</li>
-     *   <li>String - TextNode</li>
-     *   <li>Integer, Long - numeric node</li>
-     *   <li>Float, Double - numeric node</li>
-     *   <li>Boolean - boolean node</li>
-     *   <li>null - null node</li>
+     * <li>JsonNode - used directly (for complex objects or arrays)</li>
+     * <li>List - converted to ArrayNode</li>
+     * <li>Path - converted to forward-slash string (Windows compatible)</li>
+     * <li>String - TextNode</li>
+     * <li>Integer, Long - numeric node</li>
+     * <li>Float, Double - numeric node</li>
+     * <li>Boolean - boolean node</li>
+     * <li>null - null node</li>
      * </ul>
      *
      * @param value the value to convert
@@ -284,5 +291,9 @@ public class JsonConfigHelper {
      */
     public static ObjectMapper getMapper() {
         return MAPPER;
+    }
+
+    static SSLContext remoteConfigContext() throws java.security.NoSuchAlgorithmException {
+        return SSLContext.getInstance("SSL");
     }
 }
