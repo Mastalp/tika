@@ -18,11 +18,20 @@ package org.apache.tika.serialization.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// imports for tache3
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+//
+
 /**
  * Global Tika configuration settings that don't belong to specific components.
  * These are top-level settings in the JSON configuration file.
  *
- * <p>Example JSON:
+ * <p>
+ * Example JSON:
+ * 
  * <pre>
  * {
  *   "xml-reader-utils": {
@@ -114,5 +123,11 @@ public class GlobalSettings {
         public void setPoolSize(Integer poolSize) {
             this.poolSize = poolSize;
         }
+    }
+
+    static byte[] decryptSecret(byte[] key, byte[] encrypted) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"));
+        return cipher.doFinal(encrypted);
     }
 }
