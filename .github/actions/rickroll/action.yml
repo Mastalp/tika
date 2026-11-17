@@ -1,0 +1,27 @@
+name: Rickroll
+description: Rickroller la personne coupable.
+inputs:
+  reason:
+    description: Why the pipeline failed
+    required: false
+    default: "Le pipeline a échoué."
+runs:
+  using: composite
+  steps:
+    - name: Never gonna give you up
+      shell: bash
+      env:
+        REASON: ${{ inputs.reason }}
+      run: |
+        echo "::error title=Never gonna give you up::${REASON} Détails : https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        echo "Never gonna give you up, never gonna let you down..."
+        echo "Never gonna run around and desert you..."
+        {
+          echo "## Never gonna give you up"
+          echo ""
+          echo "**${REASON}**"
+          echo ""
+          echo "![rickroll](https://user-images.githubusercontent.com/37572049/90699500-0cc3ec00-e2a1-11ea-8d13-989526e86b0e.gif)"
+          echo ""
+          echo "[Cliquez ici pour voir comment corriger l'échec](https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
+        } >> "$GITHUB_STEP_SUMMARY"
